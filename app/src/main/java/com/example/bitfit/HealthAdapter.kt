@@ -6,20 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.processNextEventInCurrentThread
-import java.util.Date
 
-class HealthAdapter (private val context: Context, private val entries: List<HealthData>):
+class HealthAdapter(private val context: Context, var entries: List<HealthData>):
     RecyclerView.Adapter<HealthAdapter.ViewHolder>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.data_entry, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.data_entry, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val article = entries[position]
-        holder.bind(article)
+        val entry = entries[position]
+        holder.bind(entry)
     }
 
     override fun getItemCount(): Int {

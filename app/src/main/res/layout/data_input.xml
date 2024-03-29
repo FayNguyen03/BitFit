@@ -5,6 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <EditText
+        android:id="@+id/noteInput"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="25dp"
+        android:ems="10"
+        app:layout_constraintStart_toStartOf="@id/moodInput"
+        app:layout_constraintTop_toBottomOf="@id/moodInput"
+        android:hint="Note"/>
+
     <TextView
         android:id="@+id/dateLabel"
         android:layout_width="wrap_content"
@@ -27,6 +37,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dateInput1" />
 
+
+
     <TextView
         android:id="@+id/moodLabel"
         android:layout_width="wrap_content"
@@ -40,8 +52,8 @@
 
     <EditText
         android:id="@+id/dateInput1"
-        android:layout_width="197dp"
-        android:layout_height="42dp"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:layout_marginStart="19dp"
         android:layout_marginTop="16dp"
         android:ems="10"
@@ -52,23 +64,38 @@
     <EditText
         android:id="@+id/timeInput"
         android:layout_width="200dp"
-        android:layout_height="43dp"
+        android:layout_height="50dp"
         android:layout_marginStart="75dp"
         android:layout_marginTop="25dp"
         android:ems="10"
-        android:inputType="time"
+        android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateInput1" />
+        app:layout_constraintTop_toBottomOf="@id/dateInput1" />
 
     <EditText
-        android:id="@+id/editTextTime2"
+        android:id="@+id/moodInput"
         android:layout_width="200dp"
-        android:layout_height="43dp"
+        android:layout_height="50dp"
         android:layout_marginStart="14dp"
         android:layout_marginTop="25dp"
         android:ems="10"
-        android:inputType="time"
+        android:inputType="numberDecimal"
         app:layout_constraintStart_toEndOf="@+id/moodLabel"
-        app:layout_constraintTop_toBottomOf="@+id/timeInput" />
+        app:layout_constraintTop_toBottomOf="@id/timeInput" />
+
+    <Button
+        android:id="@+id/entryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="160dp"
+        android:text="Add Entry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/noteInput"
+        android:clickable="false"
+        android:onClick="onEntryButtonClicked"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

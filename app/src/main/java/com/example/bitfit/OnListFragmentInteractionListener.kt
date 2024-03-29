@@ -1,6 +1,6 @@
 package com.example.bitfit
 
-interface OnListFragmentInteractionListerner {
+interface OnListFragmentInteractionListener {
     fun onItemClick(item: HealthData)
 
     abstract fun RequestParam(): Any

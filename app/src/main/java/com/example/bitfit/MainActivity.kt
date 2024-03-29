@@ -12,10 +12,7 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.dashboard, DashboardFragment())
             .commit()
 
-        // Add or replace the second fragment
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.input, NowPlayingFragment())
-            .commit()
+
 
     }
 }

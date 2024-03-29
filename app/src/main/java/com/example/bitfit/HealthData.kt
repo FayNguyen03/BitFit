@@ -4,7 +4,7 @@ import java.util.Date
 
 data class HealthData(
     val note: String?,
-    val mood: Number?,
-    val sleepingHour: Number?,
+    val mood: Double?,
+    val sleepingHour: Double?,
     val date: Date?
 )
