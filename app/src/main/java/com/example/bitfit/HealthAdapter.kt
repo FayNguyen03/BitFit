@@ -15,15 +15,6 @@ class HealthAdapter(private val context: Context, var entries: List<HealthData>)
         val view = LayoutInflater.from(parent.context).inflate(R.layout.data_entry, parent, false)
         return ViewHolder(view)
     }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val entry = entries[position]
-        holder.bind(entry)
-    }
-
-    override fun getItemCount(): Int {
-        return entries.size
-    }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
 
@@ -53,5 +44,14 @@ class HealthAdapter(private val context: Context, var entries: List<HealthData>)
             TODO("I dont know what to do without you")
         }
     }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val entry = entries[position]
+        holder.bind(entry)
+    }
+
+    override fun getItemCount(): Int {
+        return entries.size
+    }
+
 
 }

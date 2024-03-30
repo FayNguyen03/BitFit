@@ -13,7 +13,7 @@ interface HealthDao {
     fun getAll(): Flow<List<HealthEntity>>
 
     @Insert
-    fun insertAll(articles: List<HealthEntity>)
+    fun insert(entry: HealthEntity)
 
     @Query("DELETE FROM health_table")
     fun deleteAll()

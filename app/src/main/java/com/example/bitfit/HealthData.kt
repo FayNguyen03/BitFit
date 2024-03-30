@@ -3,8 +3,10 @@ package com.example.bitfit
 import java.util.Date
 
 data class HealthData(
-    val note: String?,
-    val mood: Double?,
+    val date:String?,
     val sleepingHour: Double?,
-    val date: String?
+    val mood: Double?,
+    val note: String?,
+
+
 )

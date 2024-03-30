@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Date
@@ -23,7 +24,7 @@ import java.util.Date
 
 class DashboardFragment: Fragment(), OnListFragmentInteractionListener{
     private lateinit var healthRecyclerView: RecyclerView
-    var entries = mutableListOf<HealthData>()
+    var entries = mutableListOf<HealthData>(HealthData("12/03/2021",6.0,7.0,"hehe"))
     private lateinit var addButton: Button
     private lateinit var viewModel: SharedViewModel
     private lateinit var inputView: View
@@ -40,10 +41,10 @@ class DashboardFragment: Fragment(), OnListFragmentInteractionListener{
         viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         application=requireActivity().application as HealthApplication
         adapterHealth = HealthAdapter(context,entries)
+        updateAdapter(entries)
         lifecycleScope.launch {
             (requireActivity().application as HealthApplication).db.healthDao().getAll()
                 .collect { entry ->
-                    Log.d("DatabaseData", "Entry: $entry")
                     entry.map { entity ->
                         HealthData(
                             entity.date,
@@ -54,10 +55,10 @@ class DashboardFragment: Fragment(), OnListFragmentInteractionListener{
                     }.also { mappedList ->
                         entries.clear()
                         entries.addAll(mappedList)
-                        adapterHealth.notifyDataSetChanged()                    }
+                        updateAdapter(entries)                   }
                 }
 
-                }
+        }
         healthRecyclerView.adapter = adapterHealth
         return view
     }
@@ -76,22 +77,9 @@ class DashboardFragment: Fragment(), OnListFragmentInteractionListener{
 
         viewModel.entries.observe(viewLifecycleOwner, Observer { entries ->
             updateAdapter(entries)
-            lifecycleScope.launch(IO) {
-                (application as HealthApplication).db.healthDao().deleteAll()
-                (application as HealthApplication).db.healthDao().insertAll(entries.map {
-                    HealthEntity(
-                        date = it.date,
-                        sleepingHour = it.sleepingHour,
-                        mood = it.mood,
-                        note = it.note
-                    )
-                })
-                val entries = (requireActivity().application as HealthApplication).db.healthDao().getAll()
-                entries.collect { entry ->
-                    Log.d("DatabaseData", "Entry: $entry")
-                }
-            }
+
         })
+
     }
 
     private fun updateAdapter(entries: MutableList<HealthData>) {
@@ -112,5 +100,3 @@ class DashboardFragment: Fragment(), OnListFragmentInteractionListener{
         TODO("Not yet implemented")
     }
 }
-
-

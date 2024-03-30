@@ -11,10 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.RatingBar
 import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.Serializable
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -24,7 +28,7 @@ import java.util.Locale
 
 class InputFragment: Fragment(){
     private lateinit var dateInput: EditText
-    private lateinit var moodInput: EditText
+    private lateinit var moodInput: RatingBar
     private lateinit var hourInput: EditText
     private lateinit var noteInput: EditText
     private lateinit var addButton: Button
@@ -33,7 +37,7 @@ class InputFragment: Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view=inflater.inflate(R.layout.data_input,container,false)
         dateInput= view.findViewById<EditText>(R.id.dateInput1)
-        moodInput= view.findViewById<EditText>(R.id.moodInput)
+        moodInput= view.findViewById<RatingBar>(R.id.moodInput)
         noteInput= view.findViewById<EditText>(R.id.noteInput)
         hourInput=view.findViewById<EditText>(R.id.timeInput)
         addButton = view.findViewById<Button>(R.id.entryButton)
@@ -48,14 +52,14 @@ class InputFragment: Fragment(){
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                addButton.isEnabled = dateInput.text.isNotEmpty() && moodInput.text.isNotEmpty() && noteInput.text.isNotEmpty() && hourInput.text.isNotEmpty()
+                addButton.isEnabled = dateInput.text.isNotEmpty() && !moodInput.rating.isNaN() && hourInput.text.isNotEmpty()
             }
 
             override fun afterTextChanged(s: Editable?) {}
         }
 
         dateInput.addTextChangedListener(textWatcher)
-        moodInput.addTextChangedListener(textWatcher)
+        moodInput.onRatingBarChangeListener(textWatcher)
         noteInput.addTextChangedListener(textWatcher)
         hourInput.addTextChangedListener(textWatcher)
     }
@@ -63,23 +67,33 @@ class InputFragment: Fragment(){
         super.onViewCreated(view, savedInstanceState)
         addButton.setOnClickListener {
 
-            if (dateInput.text != null && noteInput.text!=null && moodInput.text!=null && hourInput.text != null) {
+
                 val entry = HealthData(
-                    noteInput.text.toString(),
-                    moodInput.text.toString().toDouble(),
+                    dateInput.text.toString(),
                     hourInput.text.toString().toDouble(),
-                    dateInput.text.toString()
+                    moodInput.rating.toDouble(),
+                    noteInput.text.toString()
                 )
                 viewModel.addEntry(entry)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    (requireActivity().application as HealthApplication).db.healthDao().insert(
+                        HealthEntity(
+                            date = entry.date,
+                            sleepingHour = entry.sleepingHour,
+                            mood = entry.mood,
+                            note = entry.note
+                        )
+                    )
+                    (requireActivity().application as HealthApplication).db.healthDao().getAll()
+                        .collect { entry ->
+                            Log.d("DatabaseData", "Entry: $entry")
+                        }
+                }
                 parentFragmentManager.popBackStack()
-            } else {
-                // Handle date parsing error, perhaps with a Toast
-                Toast.makeText(
-                    context,
-                    "Invalid input!",
-                    Toast.LENGTH_LONG
-                ).show()
             }
         }
     }
+
+private fun RatingBar.onRatingBarChangeListener(textWatcher: TextWatcher) {
+
 }
