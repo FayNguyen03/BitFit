@@ -17,4 +17,7 @@ interface HealthDao {
 
     @Query("DELETE FROM health_table")
     fun deleteAll()
+
+    @Query("SELECT AVG(sleepingHours) FROM health_table")
+    fun hour_avg():Double
 }

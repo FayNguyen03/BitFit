@@ -29,7 +29,7 @@ class HealthAdapter(private val context: Context, var entries: List<HealthData>)
 
         fun bind(entry: HealthData) {
             dateView.text= entry.date.toString()
-            moodView.text = "Mood Level: " + entry.mood.toString() + "/10"
+            moodView.text = "Mood Level: " + entry.mood.toString() + "/5"
             noteView.text = "P/s: " + entry.note.toString()
             hourView.text = "Sleep Time: " + entry.sleepingHour.toString() + " hr"
 

@@ -11,16 +11,16 @@ Time spent: **5** hours spent in total
 The following **required** functionality is completed:
 
 - [X] **At least one health metric is tracked (based on user input)**
-  - Chosen metric(s): `[TODO: FILL ME IN TO GET CREDIT]`
+  - Chosen metric(s): `Sleeping Hours, Mood, Date`
 - [X] **There is a "create entry" UI that prompts users to make their daily entry**
 - [X] **New entries are saved in a database and then updated in the RecyclerView**
 - [X] **On application restart, previously entered entries are preserved (i.e., are *persistent*)**
  
 The following **optional** features are implemented:
 
-- [ ] **Create a UI for tracking averages and trends in metrics**
+- [X] **Create a UI for tracking averages and trends in metrics**
 - [ ] **Improve and customize the user interface through styling and coloring**
-- [ ] **Implement orientation responsivity**
+- [X] **Implement orientation responsivity**
 - [ ] **Add a daily photo feature**
 
 The following **additional** features are implemented:
@@ -32,7 +32,7 @@ The following **additional** features are implemented:
 Here's a walkthrough of implemented user stories:
 
 <img src='GIF.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-
+<img src='GIF_land.gif' title='Video Walkthrough' width='' alt='Video Walkthrough Landscape Mode' />
 <!-- Replace this with whatever GIF tool you used! -->
 GIF created with ScreenToGif  
 <!-- Recommended tools:
