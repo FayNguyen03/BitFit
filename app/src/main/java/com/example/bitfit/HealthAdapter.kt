@@ -1,6 +1,7 @@
 package com.example.bitfit
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,9 +38,9 @@ class HealthAdapter(private val context: Context, var entries: List<HealthData>)
 
         fun bind(entry: HealthData) {
             dateView.text= entry.date.toString()
-            moodView.text = entry.mood.toString()
-            noteView.text = entry.note.toString()
-            hourView.text = entry.sleepingHour.toString()
+            moodView.text = "Mood Level: " + entry.mood.toString() + "/10"
+            noteView.text = "P/s: " + entry.note.toString()
+            hourView.text = "Sleep Time: " + entry.sleepingHour.toString() + " hr"
 
         }
         override fun onClick(v: View?) {

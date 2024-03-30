@@ -1,5 +1,6 @@
 package com.example.bitfit
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,8 +11,15 @@ class SharedViewModel : ViewModel() {
 
     fun addEntry(entry: HealthData) {
         val currentList = _entries.value ?: mutableListOf()
+
         currentList.add(entry)
-        _entries.value = currentList
+        Log.d("viewModel",currentList.size.toString())
+            _entries.value = currentList
         _entries.postValue(_entries.value)
+
     }
+    fun getEntry(): MutableList<HealthData>{
+        return _entries.value ?: mutableListOf()
+    }
+
 }

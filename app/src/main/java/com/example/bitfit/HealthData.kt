@@ -6,5 +6,5 @@ data class HealthData(
     val note: String?,
     val mood: Double?,
     val sleepingHour: Double?,
-    val date: Date?
+    val date: String?
 )

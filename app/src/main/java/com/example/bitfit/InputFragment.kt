@@ -62,19 +62,13 @@ class InputFragment: Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addButton.setOnClickListener {
-            val sdf = SimpleDateFormat("MM/DD/yyyy", Locale.getDefault())
-            val date = try {
-                sdf.parse(dateInput.text.toString())
-            } catch (e: ParseException) {
-                null
-            }
 
-            if (date != null) {
+            if (dateInput.text != null && noteInput.text!=null && moodInput.text!=null && hourInput.text != null) {
                 val entry = HealthData(
                     noteInput.text.toString(),
                     moodInput.text.toString().toDouble(),
                     hourInput.text.toString().toDouble(),
-                    date
+                    dateInput.text.toString()
                 )
                 viewModel.addEntry(entry)
                 parentFragmentManager.popBackStack()

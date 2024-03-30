@@ -9,31 +9,62 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.forEach
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Date
 
 
 class DashboardFragment: Fragment(), OnListFragmentInteractionListener{
     private lateinit var healthRecyclerView: RecyclerView
-    var entries = mutableListOf<HealthData>(HealthData("hehe",5.6,7.5, Date(2023,12,12)))
+    var entries = mutableListOf<HealthData>()
     private lateinit var addButton: Button
     private lateinit var viewModel: SharedViewModel
     private lateinit var inputView: View
+    private lateinit var adapterHealth: HealthAdapter
+    private lateinit var application: HealthApplication
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view=inflater.inflate(R.layout.data_dashboard,container,false)
         healthRecyclerView= view.findViewById<View>(R.id.healthList) as RecyclerView
         addButton = view.findViewById<Button>(R.id.button)
         val context=view.context
-        Log.d("Debugging","View initialized")
-        healthRecyclerView.adapter = HealthAdapter(view.context,entries)
+        val layoutManager = LinearLayoutManager(context)
+        healthRecyclerView.setLayoutManager(layoutManager)
+        viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        application=requireActivity().application as HealthApplication
+        adapterHealth = HealthAdapter(context,entries)
+        lifecycleScope.launch {
+            (requireActivity().application as HealthApplication).db.healthDao().getAll()
+                .collect { entry ->
+                    Log.d("DatabaseData", "Entry: $entry")
+                    entry.map { entity ->
+                        HealthData(
+                            entity.date,
+                            entity.sleepingHour,
+                            entity.mood,
+                            entity.note
+                        )
+                    }.also { mappedList ->
+                        entries.clear()
+                        entries.addAll(mappedList)
+                        adapterHealth.notifyDataSetChanged()                    }
+                }
+
+                }
+        healthRecyclerView.adapter = adapterHealth
         return view
     }
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-
 
         addButton.setOnClickListener {
             val fragmentManager=parentFragmentManager
@@ -42,8 +73,24 @@ class DashboardFragment: Fragment(), OnListFragmentInteractionListener{
                 .addToBackStack(null)
                 .commit()
         }
+
         viewModel.entries.observe(viewLifecycleOwner, Observer { entries ->
             updateAdapter(entries)
+            lifecycleScope.launch(IO) {
+                (application as HealthApplication).db.healthDao().deleteAll()
+                (application as HealthApplication).db.healthDao().insertAll(entries.map {
+                    HealthEntity(
+                        date = it.date,
+                        sleepingHour = it.sleepingHour,
+                        mood = it.mood,
+                        note = it.note
+                    )
+                })
+                val entries = (requireActivity().application as HealthApplication).db.healthDao().getAll()
+                entries.collect { entry ->
+                    Log.d("DatabaseData", "Entry: $entry")
+                }
+            }
         })
     }
 
