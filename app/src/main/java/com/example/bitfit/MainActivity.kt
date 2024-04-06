@@ -9,7 +9,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -23,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val NOTIFICATION_ID = 1001
     }
+    private lateinit var button: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         val fragment1: Fragment = DashboardFragment()
         val fragment2: Fragment = StatisticsFragment()
         val bottomNavigationView = findViewById<NavigationBarView>(R.id.bottom_navigation)
+        button= findViewById<Button>(R.id.noti_trigger)
         bottomNavigationView.setOnItemSelectedListener { item ->
             lateinit var fragment: Fragment
             when (item.itemId) {
@@ -44,10 +49,14 @@ class MainActivity : AppCompatActivity() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         createNotificationChannel()
+        button.setOnClickListener{
+            triggerNotification()
+        }
 
-        triggerNotification()
 
     }
+
+
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = getString(R.string.channel_name)

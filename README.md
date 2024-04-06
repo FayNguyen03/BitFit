@@ -17,7 +17,7 @@ The following **required** functionality is completed:
 The following **optional** features are implemented:
 
 - [ ] **Add a more advanced UI (e.g: Graphing) for tracking trends in metrics**
-- [X] **Implement daily notifications to prompt users to fill in their data** (but it does not work???)
+- [X] **Implement daily notifications to prompt users to fill in their data** 
 
 The following **additional** features are implemented:
 
@@ -27,7 +27,12 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='GIF.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='GIF_.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+**Notification:**
+
+<img src='GIF_NOTI.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
 
 <!-- Replace this with whatever GIF tool you used! -->
 GIF created with ...  
