@@ -35,13 +35,7 @@ class HealthAdapter(private val context: Context, var entries: List<HealthData>)
 
         }
         override fun onClick(v: View?) {
-            /*
-            val entry = entries[absoluteAdapterPosition]
-            val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra(ARTICLE_EXTRA, article)
-            context.startActivity(intent)
-             */
-            TODO("I dont know what to do without you")
+
         }
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

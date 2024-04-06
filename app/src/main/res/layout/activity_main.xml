@@ -10,11 +10,35 @@
     <FrameLayout
         android:id="@+id/dashboard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="650dp"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_bottom_navigation" >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+    <Button
+        android:id="@+id/noti_trigger"
+        android:layout_width="110dp"
+        android:layout_height="57dp"
+        android:text="Noti"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="583dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

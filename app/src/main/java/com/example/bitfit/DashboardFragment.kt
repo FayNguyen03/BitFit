@@ -1,12 +1,10 @@
 package com.example.bitfit
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,13 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.forEach
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.Date
 
 
 class DashboardFragment: Fragment(), OnListFragmentInteractionListener{
@@ -29,13 +21,10 @@ class DashboardFragment: Fragment(), OnListFragmentInteractionListener{
     private lateinit var addButton: Button
     private lateinit var viewModel: SharedViewModel
     private lateinit var adapterHealth: HealthAdapter
-    private lateinit var avgView: TextView
     private lateinit var application: HealthApplication
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view=inflater.inflate(R.layout.data_dashboard,container,false)
+        val view=inflater.inflate(R.layout.fragment_data_dashboard,container,false)
         healthRecyclerView= view.findViewById<View>(R.id.healthList) as RecyclerView
-        avgView=view.findViewById(R.id.avgHour) as TextView
         addButton = view.findViewById<Button>(R.id.button)
         val context=view.context
         val layoutManager = LinearLayoutManager(context)
@@ -62,7 +51,6 @@ class DashboardFragment: Fragment(), OnListFragmentInteractionListener{
 
         }
         healthRecyclerView.adapter = adapterHealth
-        avgView.text="Average Sleeping Hours: "
         return view
     }
 
@@ -82,11 +70,7 @@ class DashboardFragment: Fragment(), OnListFragmentInteractionListener{
             updateAdapter(entries)
 
         })
-        lifecycleScope.launch(Dispatchers.IO) {
-            avgView.text = "Average Sleeping Hours: " +
-                (requireActivity().application as HealthApplication).db.healthDao().hour_avg().toString()
 
-        }
     }
     private fun updateAdapter(entries: MutableList<HealthData>) {
         (healthRecyclerView.adapter as? HealthAdapter)?.let {

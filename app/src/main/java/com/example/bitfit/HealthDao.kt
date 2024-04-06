@@ -20,4 +20,7 @@ interface HealthDao {
 
     @Query("SELECT AVG(sleepingHours) FROM health_table")
     fun hour_avg():Double
+
+    @Query("SELECT AVG(mood) FROM health_table")
+    fun mood_avg():Double
 }
